@@ -54,26 +54,29 @@ def reset():
     _consonants = ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z')
     _vowels = ('a', 'e', 'i', 'o', 'u')
 
-def _generate_letter(index, word_length):
+def _generate_letter(index, word_index, word_length):
     pass
 
 def make_words(word_length_min, word_length_max, word_count):
+    global _index_word, _max_words, _index_letter, _max_letters, _previous_letter
     words = []
     word = ""
 
-    global _index_word
-    global _max_words
+    # Generate word.
     _max_words = word_count
     for _index_word in range(_max_words):
+
+        # Before each word, reset the alphabet.
         reset()
 
-        global _index_letter
-        global _max_letters
+        # Generate letters for this word.
         _max_letters = random.randint(word_length_min, word_length_max)
         for _index_letter in range(_max_letters):
-            _generate_letter(_index_letter, _max_letters)
+
+            # This function is empty, user is expected to override this function
+            # inside word_maker.py
+            _generate_letter(_index_letter, _index_word, _max_letters)
             
-            global _previous_letter
             _previous_letter = _current_letter
             word += _current_letter 
 
