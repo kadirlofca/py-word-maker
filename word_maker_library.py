@@ -15,12 +15,19 @@ _index_word = 0
 
 def _set_current_letter(letter):
     global _current_letter
+
     _current_letter = letter
 
-def half_words():
+def is_vowel():
+    for v in _vowels:
+        if _current_letter == v:
+            return 1
+    return 0
+
+def is_half_words():
     return _index_word > _max_words / 2
 
-def half_letters():
+def is_half_letters():
     return _index_letter > _max_letters / 2
 
 def maybe():
@@ -35,6 +42,16 @@ def con():
 def any():
     _set_current_letter(random.choice(_consonants + _vowels))
 
+def choice(letters):
+    _set_current_letter(random.choice(letters))
+
+def insert(string):
+    if string == "":
+        print("Empty insert() string parameter.")
+        return
+
+    _set_current_letter(string)
+
 def switch():
     for v in _vowels:
         if _previous_letter == v:
@@ -43,16 +60,17 @@ def switch():
     vow()
 
 def blacklist(blacklist):
-    global _vowels
-    global _consonants
+    global _vowels, _consonants
+
     _vowels = tuple(numpy.setdiff1d(_vowels, blacklist))
     _consonants = tuple(numpy.setdiff1d(_consonants, blacklist))
 
 def reset():
-    global _consonants
-    global _vowels
+    global _vowels, _consonants, _previous_letter, _current_letter
+
     _consonants = ('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z')
     _vowels = ('a', 'e', 'i', 'o', 'u')
+    _previous_letter = _current_letter = ""
 
 def _generate_letter(index, word_index, word_length):
     pass
@@ -77,7 +95,7 @@ def make_words(word_length_min, word_length_max, word_count):
             # inside word_maker.py
             _generate_letter(_index_letter, _index_word, _max_letters)
             
-            _previous_letter = _current_letter
+            _previous_letter = _current_letter[-1]
             word += _current_letter 
 
         words += (word, )
